@@ -31,8 +31,8 @@ W pliku connection.php znajdują się:
 
 Funkcja `fetchData` przyjmuje jako argumenty `PDOStatement $statement` oraz array `$params` i zwraca jedno z poniższych:
 
-- array - jeżeli zapytanie wykonało się prawidłowo, będzie to tablica ze wszystkimi danymi
-- string - wiadomość błędu (jeżeli $config['debug'] == true)
-- DbError - rodzaj błędu (jeżeli $config['debug'] == false)
+- `array` - jeżeli zapytanie wykonało się prawidłowo, będzie to tablica ze wszystkimi danymi
+- `string` - wiadomość błędu (jeżeli `$config['debug'] == true`)
+- `DbError` - rodzaj błędu (jeżeli `$config['debug'] == false`)
 
 W przypadku wszelkich pytań proszę pisać na kanale ⁠#konsultacje na serwerze Discord albo w issues.
