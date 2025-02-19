@@ -1,4 +1,4 @@
-[![crates.io](https://img.shields.io/badge/Discord-darkblue)](https://discord.gg/jr8EkEDfrm)
+[![Discord](https://img.shields.io/badge/Discord-gray?logo=discord)](https://discord.gg/DrDUJGjd)
 # Vulcan
 Projekt bazy danych dziennika szkolnego na tworzenie i zarządzanie bazami danych.
 
