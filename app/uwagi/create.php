@@ -1,5 +1,5 @@
 <?php
-require_once '../../db/connection.php';
+require_once __DIR__ . '/../../db/connection.php';
 
 $sql = "SELECT  pracownicy.id AS pracownik_id,
                 pracownicy.imie AS pracownik_imie, 
