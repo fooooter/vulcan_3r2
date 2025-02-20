@@ -8,16 +8,20 @@ if (!isset($_GET['id'])) {
 
 $id = $_GET['id'];
 
-$sql = "SELECT uwagi.*, 
-               uczniowie.nazwisko AS uczen_nazwisko, 
-               pracownicy.nazwisko AS pracownik_nazwisko 
+$sql = "SELECT  uwagi.*,
+                uczniowie.imie AS uczen_imie,
+                uczniowie.nazwisko AS uczen_nazwisko,
+                oddzialy.oddzial AS uczen_oddzial, 
+                pracownicy.imie AS pracownik_imie, 
+                pracownicy.nazwisko AS pracownik_nazwisko 
         FROM uwagi 
-        LEFT JOIN uczniowie ON uwagi.uczen_id = uczniowie.id 
-        LEFT JOIN pracownicy ON uwagi.pracownik_id = pracownicy.id 
-        WHERE uwagi.id = :id";
+        LEFT JOIN uczniowie   ON uwagi.uczen_id = uczniowie.id 
+        LEFT JOIN pracownicy  ON uwagi.pracownik_id = pracownicy.id
+        INNER JOIN oddzialy   ON uczniowie.oddzial_id = oddzialy.id
+        WHERE uwagi.id = :uwaga_id";
 
 $stmt = $connection->prepare($sql);
-$result = fetchData($stmt, [':id' => $id]);
+$result = fetchData($stmt, [':uwaga_id' => $id]);
 
 if (!is_array($result) || count($result) === 0) {
     echo "Brak rekordu o podanym ID.";
@@ -34,20 +38,18 @@ $record = $result[0];
 </head>
 <body>
     <h1>Szczegóły uwagi</h1>
-    <p><strong>ID:</strong> <?php echo htmlspecialchars($record['id']); ?></p>
+    <p><strong>ID:</strong> <?=$record['id']?></p>
     <p>
         <strong>Uczeń:</strong> 
-        <?php echo htmlspecialchars($record['uczen_nazwisko']); ?> 
-        (ID: <?php echo htmlspecialchars($record['uczen_id']); ?>)
+        <?=$record['uczen_imie']?> <?=$record['uczen_nazwisko']?> <?=$record['uczen_oddzial']?>
     </p>
-    <p><strong>Typ uwagi:</strong> <?php echo htmlspecialchars($record['typ_uwagi']); ?></p>
-    <p><strong>Data:</strong> <?php echo htmlspecialchars($record['data']); ?></p>
-    <p><strong>Godzina:</strong> <?php echo htmlspecialchars($record['godzina']); ?></p>
-    <p><strong>Treść:</strong> <?php echo nl2br(htmlspecialchars($record['tresc'])); ?></p>
+    <p><strong>Typ uwagi:</strong> <?=$record['typ_uwagi']?></p>
+    <p><strong>Data:</strong> <?=$record['data']?></p>
+    <p><strong>Godzina:</strong> <?=$record['godzina']?></p>
+    <p><strong>Treść:</strong> <?php echo nl2br($record['tresc']); ?></p>
     <p>
         <strong>Pracownik:</strong> 
-        <?php echo htmlspecialchars($record['pracownik_nazwisko']); ?> 
-        (ID: <?php echo htmlspecialchars($record['pracownik_id']); ?>)
+        <?=$record['pracownik_imie']?> <?=$record['pracownik_nazwisko']?>
     </p>
     <br>
     <a href="index.php">Powrót do listy</a>

@@ -2,7 +2,7 @@
 
 $config = [
     "host" => "localhost",
-    "dbname" => "3r2_dziennik",
+    "dbname" => "vulcan_3r2",
     "user" => "root",
     "password" => "",
     "debug" => true,

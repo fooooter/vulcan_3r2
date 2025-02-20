@@ -4,8 +4,7 @@ require_once '../../db/connection.php';
 $sql = "SELECT  pracownicy.id AS pracownik_id,
                 pracownicy.imie AS pracownik_imie, 
                 pracownicy.nazwisko AS pracownik_nazwisko
-        FROM    oddzialy   INNER JOIN pracownicy ON oddzialy.id = pracownicy.oddzial_id
-                           INNER JOIN szkoly     ON oddzialy.szkoly_id = szkoly.id
+        FROM    pracownicy INNER JOIN szkoly ON pracownicy.szkola_id = szkoly.id
         WHERE   szkoly.id=:szkola_id;";
 $stmt = $connection->prepare($sql);
 $params = [
@@ -16,9 +15,9 @@ $result = fetchData($stmt, $params);
 $sql = "SELECT  uczniowie.id AS uczen_id,
                 uczniowie.imie AS uczen_imie, 
                 uczniowie.nazwisko AS uczen_nazwisko,
-                oddzialy.oddzial as oddzial
-        FROM    uczniowie INNER JOIN oddzialy ON oddzialy.id = uczniowie.oddzialy_id
-                         INNER JOIN szkoly   ON uczniowie.szkola_id = szkoly.id
+                oddzialy.oddzial AS uczen_oddzial
+        FROM    uczniowie INNER JOIN oddzialy ON oddzialy.id = uczniowie.oddzial_id
+                          INNER JOIN szkoly   ON uczniowie.szkola_id = szkoly.id
         WHERE   szkoly.id=:szkola_id;";
 $stmt = $connection->prepare($sql);
 $result2 = fetchData($stmt, $params);
@@ -72,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="uczen_id">Uczeń:</label>
         <select name="uczen_id" id="uczen_id" required>
             <?php foreach($result2 as $row): ?>
-                <option value="<?=$row['uczen_id']?>"><?=$row['uczen_imie']?> <?=$row['uczen_nazwisko']?> <?=$row['oddzial']?></option>
+                <option value="<?=$row['uczen_id']?>"><?=$row['uczen_imie']?> <?=$row['uczen_nazwisko']?> <?=$row['uczen_oddzial']?></option>
             <?php endforeach; ?>
         </select><br><br>
         

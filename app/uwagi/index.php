@@ -1,13 +1,16 @@
 <?php
-require_once '../../db/connection.php';
+require_once __DIR__ . '/../../db/connection.php';
 
 $sql = "SELECT  uwagi.*,
                 uczniowie.imie AS uczen_imie,
-                uczniowie.nazwisko AS uczen_nazwisko, 
+                uczniowie.nazwisko AS uczen_nazwisko,
+                oddzialy.oddzial AS uczen_oddzial, 
+                pracownicy.imie AS pracownik_imie, 
                 pracownicy.nazwisko AS pracownik_nazwisko 
         FROM uwagi 
         LEFT JOIN uczniowie   ON uwagi.uczen_id = uczniowie.id 
         LEFT JOIN pracownicy  ON uwagi.pracownik_id = pracownicy.id
+        INNER JOIN oddzialy   ON uczniowie.oddzial_id = oddzialy.id
         INNER JOIN szkoly     ON pracownicy.szkola_id = szkoly.id
         WHERE szkoly.id = :szkola_id";
 
@@ -35,7 +38,7 @@ $result = fetchData($stmt, $params);
                 <th>Data</th>
                 <th>Godzina</th>
                 <th>Treść</th>
-                <th>Pracownik</th>
+                <th>Nauczyciel</th>
                 <th>Akcje</th>
             </tr>
         </thead>
@@ -44,12 +47,12 @@ $result = fetchData($stmt, $params);
                 <?php foreach ($result as $row): ?>
                     <tr>
                         <td><?=$row['id']?></td>
-                        <td><?=$row['uczen_imie']?> <?=$row['uczen_nazwisko']?></td>
+                        <td><?=$row['uczen_imie']?> <?=$row['uczen_nazwisko']?> <?=$row['uczen_oddzial']?></td>
                         <td><?=$row['typ_uwagi']?></td>
                         <td><?=$row['data']?></td>
                         <td><?=$row['godzina']?></td>
                         <td><?=$row['tresc']?></td>
-                        <td><?=$row['pracownik_nazwisko']?></td>
+                        <td><?=$row['pracownik_imie']?> <?=$row['pracownik_nazwisko']?></td>
                         <td>
                             <a href="read.php?id=<?php echo $row['id']; ?>">Szczegóły</a> |
                             <a href="update.php?id=<?php echo $row['id']; ?>">Edytuj</a> |
