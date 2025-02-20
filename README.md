@@ -13,7 +13,7 @@ Zawiera następującą strukturę
 ```
 
 
-Struktura znajduje się w vulcan_3r2.sql oraz w #zasoby na serwerze Discord.
+Struktura bazy danych znajduje się w vulcan_3r2.sql oraz w #zasoby na serwerze Discord.
 
 Tworząc formularz, należy stworzyć folder o nazwie tabeli (ze względów organizacyjnych), w którym powinny znaleźć się następujące pliki:
 - index.php - służy do wyświetlenia wszystkich rekordów z tabeli
