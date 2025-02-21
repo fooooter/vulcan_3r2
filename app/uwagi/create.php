@@ -1,24 +1,30 @@
 <?php
 require_once __DIR__ . '/../../db/connection.php';
 
-$sql = "SELECT  pracownicy.id AS pracownik_id,
-                pracownicy.imie AS pracownik_imie, 
-                pracownicy.nazwisko AS pracownik_nazwisko
-        FROM    pracownicy INNER JOIN szkoly ON pracownicy.szkola_id = szkoly.id
-        WHERE   szkoly.id=:szkola_id;";
+$sql = "SELECT   pracownicy.id       AS pracownik_id,
+                 CONCAT(pracownicy.nazwisko, ' ', pracownicy.imie) AS pracownik_nazwa
+        FROM     pracownicy INNER JOIN szkoly ON pracownicy.szkola_id = szkoly.id
+        WHERE    szkoly.id=:szkola_id 
+        ORDER BY pracownicy.nazwisko ASC;";
 $stmt = $connection->prepare($sql);
 $params = [
     ":szkola_id"=>1
 ];
 $result = fetchData($stmt, $params);
 
-$sql = "SELECT  uczniowie.id AS uczen_id,
-                uczniowie.imie AS uczen_imie, 
-                uczniowie.nazwisko AS uczen_nazwisko,
-                oddzialy.oddzial AS uczen_oddzial
-        FROM    uczniowie INNER JOIN oddzialy ON oddzialy.id = uczniowie.oddzial_id
-                          INNER JOIN szkoly   ON uczniowie.szkola_id = szkoly.id
-        WHERE   szkoly.id=:szkola_id;";
+$sql = "SELECT   uczniowie.id AS uczen_id,
+                 CONCAT(
+                    uczniowie.nazwisko, 
+                    ' ', 
+                    uczniowie.imie,
+                    ' ',
+                    oddzialy.oddzial
+                ) AS uczen_nazwa
+        FROM     uczniowie INNER JOIN oddzialy ON oddzialy.id = uczniowie.oddzial_id
+                           INNER JOIN szkoly   ON uczniowie.szkola_id = szkoly.id
+        WHERE    szkoly.id=:szkola_id
+        GROUP BY uczen_id, oddzialy.oddzial
+        ORDER BY oddzialy.oddzial, uczniowie.nazwisko;";
 $stmt = $connection->prepare($sql);
 $result2 = fetchData($stmt, $params);
 
@@ -70,9 +76,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="post">
         <label for="uczen_id">Uczeń:</label>
         <select name="uczen_id" id="uczen_id" required>
+            <option value="">Wybierz ucznia</option>
+            <hr/>
             <?php foreach($result2 as $row): ?>
-                <option value="<?=$row['uczen_id']?>"><?=$row['uczen_imie']?> <?=$row['uczen_nazwisko']?> <?=$row['uczen_oddzial']?></option>
+                <option value="<?=$row['uczen_id']?>"><?=$row['uczen_nazwa']?></option>
             <?php endforeach; ?>
+            <hr/>
         </select><br><br>
         
         <label for="typ_uwagi">Typ uwagi:</label>
@@ -92,8 +101,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         <label for="pracownik_id">Nauczyciel:</label>
         <select name="pracownik_id" id="pracownik_id" required>
+            <option value="">Wybierz nauczyciela</option>
+            <hr/>
             <?php foreach($result as $row): ?>
-                <option value="<?=$row['pracownik_id']?>"><?=$row['pracownik_imie']?> <?=$row['pracownik_nazwisko']?></option>
+                <option value="<?=$row['pracownik_id']?>"><?=$row['pracownik_nazwa']?></option>
             <?php endforeach; ?>
         </select><br><br>
         <button type="submit">Dodaj</button>

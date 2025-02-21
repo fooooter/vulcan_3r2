@@ -9,11 +9,14 @@ if (!isset($_GET['id'])) {
 $id = $_GET['id'];
 
 $sql = "SELECT  uwagi.*,
-                uczniowie.imie AS uczen_imie,
-                uczniowie.nazwisko AS uczen_nazwisko,
-                oddzialy.oddzial AS uczen_oddzial, 
-                pracownicy.imie AS pracownik_imie, 
-                pracownicy.nazwisko AS pracownik_nazwisko 
+                CONCAT(
+                    uczniowie.nazwisko, 
+                    ' ', 
+                    uczniowie.imie,
+                    ' ',
+                    oddzialy.oddzial
+                ) AS uczen_nazwa,
+                CONCAT(pracownicy.nazwisko, ' ', pracownicy.imie) AS pracownik_nazwa
         FROM uwagi 
         LEFT JOIN uczniowie   ON uwagi.uczen_id = uczniowie.id 
         LEFT JOIN pracownicy  ON uwagi.pracownik_id = pracownicy.id
@@ -41,7 +44,7 @@ $record = $result[0];
     <p><strong>ID:</strong> <?=$record['id']?></p>
     <p>
         <strong>Uczeń:</strong> 
-        <?=$record['uczen_imie']?> <?=$record['uczen_nazwisko']?> <?=$record['uczen_oddzial']?>
+        <?=$record['uczen_nazwa']?>
     </p>
     <p><strong>Typ uwagi:</strong> <?=$record['typ_uwagi']?></p>
     <p><strong>Data:</strong> <?=$record['data']?></p>
@@ -49,7 +52,7 @@ $record = $result[0];
     <p><strong>Treść:</strong> <?=nl2br($record['tresc'])?></p>
     <p>
         <strong>Nauczyciel:</strong> 
-        <?=$record['pracownik_imie']?> <?=$record['pracownik_nazwisko']?>
+        <?=$record['pracownik_nazwa']?>
     </p>
     <br>
     <a href="index.php">Powrót do listy</a>

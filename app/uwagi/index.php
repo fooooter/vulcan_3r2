@@ -2,17 +2,21 @@
 require_once __DIR__ . '/../../db/connection.php';
 
 $sql = "SELECT  uwagi.*,
-                uczniowie.imie AS uczen_imie,
-                uczniowie.nazwisko AS uczen_nazwisko,
-                oddzialy.oddzial AS uczen_oddzial, 
-                pracownicy.imie AS pracownik_imie, 
-                pracownicy.nazwisko AS pracownik_nazwisko 
+                CONCAT(
+                    uczniowie.nazwisko, 
+                    ' ', 
+                    uczniowie.imie,
+                    ' ',
+                    oddzialy.oddzial
+                ) AS uczen_nazwa,
+                CONCAT(pracownicy.nazwisko, ' ', pracownicy.imie) AS pracownik_nazwa
         FROM uwagi 
         INNER JOIN uczniowie   ON uwagi.uczen_id = uczniowie.id 
         INNER JOIN pracownicy  ON uwagi.pracownik_id = pracownicy.id
         INNER JOIN oddzialy    ON uczniowie.oddzial_id = oddzialy.id
         INNER JOIN szkoly      ON pracownicy.szkola_id = szkoly.id
-        WHERE szkoly.id = :szkola_id";
+        WHERE szkoly.id = :szkola_id
+        ORDER BY uwagi.data";
 
 $stmt = $connection->prepare($sql);
 $params = [
@@ -47,12 +51,12 @@ $result = fetchData($stmt, $params);
                 <?php foreach ($result as $row): ?>
                     <tr>
                         <td><?=$row['id']?></td>
-                        <td><?=$row['uczen_imie']?> <?=$row['uczen_nazwisko']?> <?=$row['uczen_oddzial']?></td>
+                        <td><?=$row['uczen_nazwa']?></td>
                         <td><?=$row['typ_uwagi']?></td>
                         <td><?=$row['data']?></td>
                         <td><?=$row['godzina']?></td>
                         <td><?=$row['tresc']?></td>
-                        <td><?=$row['pracownik_imie']?> <?=$row['pracownik_nazwisko']?></td>
+                        <td><?=$row['pracownik_nazwa']?></td>
                         <td>
                             <a href="read.php?id=<?=$row['id']?>">Szczegóły</a> |
                             <a href="update.php?id=<?=$row['id']?>">Edytuj</a> |

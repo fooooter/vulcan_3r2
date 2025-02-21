@@ -9,11 +9,14 @@ if (!isset($_GET['id'])) {
 $id = $_GET['id'];
 
 $sql = "SELECT  uwagi.*,
-                uczniowie.imie AS uczen_imie,
-                uczniowie.nazwisko AS uczen_nazwisko,
-                oddzialy.oddzial AS uczen_oddzial, 
-                pracownicy.imie AS pracownik_imie, 
-                pracownicy.nazwisko AS pracownik_nazwisko 
+                CONCAT(
+                    uczniowie.nazwisko, 
+                    ' ', 
+                    uczniowie.imie,
+                    ' ',
+                    oddzialy.oddzial
+                ) AS uczen_nazwa,
+                CONCAT(pracownicy.nazwisko, ' ', pracownicy.imie) AS pracownik_nazwa
         FROM uwagi 
         INNER JOIN uczniowie   ON uwagi.uczen_id = uczniowie.id 
         INNER JOIN pracownicy  ON uwagi.pracownik_id = pracownicy.id
@@ -75,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
     <form method="post">
         <label>Uczeń:</label>
-        <input type="text" value="<?=$record['uczen_imie']?> <?=$record['uczen_nazwisko']?> <?=$record['uczen_oddzial']?>" disabled><br><br>
+        <input type="text" value="<?=$record['uczen_nazwa']?>" disabled><br><br>
         
         <label for="typ_uwagi">Typ uwagi:</label>
         <select name="typ_uwagi" id="typ_uwagi" required>
@@ -93,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <textarea name="tresc" id="tresc" required><?=$record['tresc']?></textarea><br><br>
         
         <label>Nauczyciel:</label>
-        <input type="text" value="<?=$record['pracownik_imie']?> <?=$record['pracownik_nazwisko']?>" disabled><br><br>
+        <input type="text" value="<?=$record['pracownik_nazwa']?>" disabled><br><br>
         
         <button type="submit">Aktualizuj</button>
     </form>
