@@ -12,7 +12,7 @@ $params = [
 ];
 $result = fetchData($stmt, $params);
 
-if (!is_array($result2)) {
+if (!is_array($result)) {
     echo "Błąd: " . htmlspecialchars($result);
     exit;
 }
