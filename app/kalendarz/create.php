@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "..\..\..\db\connection.php";
+require_once __DIR__ . "/../../db/connection.php";
 
 if (isset($_POST['add'])) {
     $szkola_id = $_POST['szkola_id'];
@@ -9,7 +9,7 @@ if (isset($_POST['add'])) {
     $nazwa = $_POST['nazwa'];
     $status = $_POST['status'];
     
-    $query = "INSERT INTO kalendarz (szkola_id, data, dzientyg, nazwa, status) 
+    $query = "INSERT INTO kalendarz (szkola_id, data, dzien_tyg, nazwa, status) 
               VALUES (:szkola_id, :data, :dzientyg, :nazwa, :status)";
     $stmt = $connection->prepare($query);
     $stmt->execute([

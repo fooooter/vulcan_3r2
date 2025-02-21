@@ -1,21 +1,21 @@
 <?php
-require_once(__DIR__ . "../../../db/connection.php");
+require_once(__DIR__ . "/../../db/connection.php");
 
 $query_oceny = "SELECT  oceny.id AS                 'oceny_id',
-                        typy_ocen.ocena AS          'oceny_typy_ocena',
+                        dict_typy_ocen.ocena AS     'oceny_typy_ocena',
                         oceny.tytul_oceny AS        'oceny_tytul',
                         oceny.opis_oceny AS         'oceny_opis',
-                        przedmioty.nazwa AS			'oceny_przedmiot',
+                        dict_przedmioty.nazwa AS    'oceny_przedmiot',
                         pracownicy.imie AS			'oceny_pracownik_imie',
                         pracownicy.nazwisko AS		'oceny_pracownik_nazwisko',
                         uczniowie.imie AS 			'oceny_uczen_imie',
                         uczniowie.nazwisko AS		'oceny_uczen_nazwisko',
                         oceny.data_wystawienia AS   'oceny_data'
                 FROM oceny
-                JOIN przedmioty ON przedmioty.id = oceny.przedmiot_id
+                JOIN dict_przedmioty ON dict_przedmioty.id = oceny.przedmiot_id
                 JOIN pracownicy ON pracownicy.id  = oceny.pracownik_id
                 JOIN uczniowie ON uczniowie.id = oceny.uczen_id
-                JOIN typy_ocen ON typy_ocen.id = oceny.typ_oceny";
+                JOIN dict_typy_ocen ON dict_typy_ocen.id = oceny.typ_oceny";
 
 
 $statement = $connection->prepare($query_oceny);

@@ -1,22 +1,22 @@
 <?php
-require_once __DIR__ . "../../../db/connection.php";
+require_once __DIR__ . "/../../db/connection.php";
 
 $id = $_GET['id'] ?? null;
 
 $query = "SELECT egzaminy.szkola_id         AS      'szkola_id',
-                 egzaminy.odzial_id         AS      'odzial_id',
+                 egzaminy.oddzial_id        AS     'oddzial_id',
                  egzaminy.nr_zdaj           AS      'nr_zdaj',
                  egzaminy.dopuszczony       AS      'dopuszczony',
                  egzaminy.kwalifikacja      AS      'kwalifikacja',
                  egzaminy.typ_egzaminu      AS      'typ_egzaminu',
                  egz_spec.id                AS      'id',
-                 egz_spec.id_ucznia         AS      'uczen_id',
-                 egz_spec.id_etykieta_egz   AS      'etykieta_egz_id',
+                 egz_spec.uczen_id          AS      'uczen_id',
+                 egz_spec.etykieta_egz_id   AS      'etykieta_egz_id',
                  egz_spec.ilosc_pkt         AS      'ilosc_pkt',
                  egz_spec.termin            AS      'termin'
           FROM egzaminy 
-          JOIN egz_spec ON egz_spec.id_etykieta_egz = egzaminy.id
-          WHERE egz_spec.id = :id"; 
+          JOIN egz_spec ON egz_spec.etykieta_egz_id = egzaminy.id
+          WHERE egz_spec.id = :id";
 
 $statement = $connection->prepare($query);
 $params = [':id' => $id];
@@ -72,7 +72,7 @@ if (!$egzaminy) {
             </tr>
             <tr>
                 <th>Oddział ID</th>
-                <td><?= htmlspecialchars($egzaminy['odzial_id']); ?></td>
+                <td><?= htmlspecialchars($egzaminy['oddzial_id']); ?></td>
             </tr>
             <tr>
                 <th>Numer Zdającego</th>

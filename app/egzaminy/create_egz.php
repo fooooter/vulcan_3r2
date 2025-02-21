@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "../../../db/connection.php";   
+require_once __DIR__ . "/../../db/connection.php";   
 $query = "SELECT id, nazwa FROM szkoly";
 
 $statement = $connection->prepare($query);

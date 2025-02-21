@@ -1,7 +1,7 @@
 <?php
-require_once(__DIR__ . "../../../db/connection.php");
+require_once(__DIR__ . "/../../db/connection.php");
 
-$query = "SELECT id, ocena FROM typy_ocen";
+$query = "SELECT id, ocena FROM dict_typy_ocen";
 $statement = $connection->prepare($query);
 $typy_ocen = fetchData($statement);
 
@@ -20,7 +20,7 @@ if ($pracownicy instanceof DbError) {
 }
 
 // Pobieranie danych o przedmiotach
-$query = "SELECT id, nazwa FROM przedmioty";
+$query = "SELECT id, nazwa FROM dict_przedmioty";
 $statement = $connection->prepare($query);
 $przedmioty = fetchData($statement);
 

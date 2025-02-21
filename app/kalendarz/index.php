@@ -1,12 +1,12 @@
 <?php
-require_once(__DIR__ . "../../../db/connection.php");
+require_once(__DIR__ . "/../../db/connection.php");
 
 $szkola_id = $_GET['szkola_id'] ?? null;
 $data = $_GET['data'] ?? null;
 
 $query = "SELECT    kalendarz.szkola_id, 
                     kalendarz.data, 
-                    kalendarz.dzientyg, 
+                    kalendarz.dzien_tyg, 
                     kalendarz.nazwa, 
                     kalendarz.status 
           FROM kalendarz
