@@ -17,4 +17,5 @@ if (is_array($result)) {
     exit;
 } else {
     echo "Błąd usuwania: " . htmlspecialchars($result);
+    exit;
 }

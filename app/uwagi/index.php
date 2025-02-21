@@ -48,7 +48,7 @@ $result = fetchData($stmt, $params);
             </tr>
         </thead>
         <tbody>
-            <?php if (is_array($result)): ?>
+            <?php if (!empty($result) && is_array($result)): ?>
                 <?php foreach ($result as $row): ?>
                     <tr>
                         <td><?=$row['id']?></td>
