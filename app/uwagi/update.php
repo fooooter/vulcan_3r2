@@ -26,8 +26,11 @@ $sql = "SELECT  uwagi.*,
 $stmt = $connection->prepare($sql);
 $result = fetchData($stmt, [':uwaga_id' => $id]);
 
-if (!is_array($result) || count($result) == 0) {
+if (empty($result)) {
     echo "Brak rekordu o podanym ID.";
+    exit;
+} else if (!is_array($result)) {
+    echo "Błąd: " . htmlspecialchars($result);
     exit;
 }
 
@@ -69,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edytuj uwagę</title>
 </head>
 <body>

@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/../../db/connection.php");
+require_once __DIR__ . "/../../db/connection.php";
 
 $query_oceny = "SELECT  oceny.id AS                 'oceny_id',
                         dict_typy_ocen.ocena AS     'oceny_typy_ocena',
@@ -34,7 +34,7 @@ if ($oceny instanceof DbError) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Egzaminy</title>
+    <title>Lista ocen</title>
     <link rel="stylesheet" href="../../css/main.css">
 </head>
 <body>

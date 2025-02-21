@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/../../db/connection.php");
+require_once __DIR__ . "/../../db/connection.php";
 
 $query = "SELECT id, ocena FROM dict_typy_ocen";
 $statement = $connection->prepare($query);

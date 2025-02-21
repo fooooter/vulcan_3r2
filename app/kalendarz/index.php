@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/../../db/connection.php");
+require_once __DIR__ . "/../../db/connection.php";
 
 $szkola_id = $_GET['szkola_id'] ?? null;
 $data = $_GET['data'] ?? null;

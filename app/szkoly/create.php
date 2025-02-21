@@ -1,13 +1,5 @@
 <?php
-
-require_once(__DIR__ . "..\..\..\db\connection.php");
-
-session_start();
-
-$statementSzkoly = $connection->prepare("SELECT id, nazwa FROM szkoly");
-$statementOddzialy = $connection->prepare("SELECT id, oddzial FROM oddzialy");
-$id_szkol = fetchData($statementSzkoly);
-$id_odzialow = fetchData($statementOddzialy);
+require_once __DIR__ . "/../../db/connection.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $miasto = empty($_POST['miasto']) ? null : htmlspecialchars(trim($_POST['miasto']));
@@ -18,76 +10,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rodzaj = empty($_POST['rodzaj']) ? null : htmlspecialchars(trim($_POST['rodzaj']));
     $nip = empty($_POST['nip']) ? null : htmlspecialchars(trim($_POST['nip']));
 
-    $params = [
-        ':miasto' => $miasto,
-        ':ulica' => $ulica,
-        ':nr_budynku' => $nr_budynku,
-        ':kod_poczt' => $kod_poczt,
-        ':nazwa' => $nazwa,
-        ':rodzaj' => $rodzaj,
-        ':nip' => $nip,
-    ];
-    
-    $statement = $connection->prepare("insert into szkoly(id, miasto, ulica, nr_budynku, kod_poczt, nazwa, rodzaj, nip) 
-            values(null, :miasto, :ulica, :nr_budynku, :kod_poczt, :nazwa, :rodzaj, :nip)");
-    $result = fetchData($statement, $params);
+    if (!empty($miasto) && !empty($ulica) && !empty($nr_budynku) && !empty($kod_poczt) && !empty($nazwa) && !empty($rodzaj) && !empty($nip)) {
+        $statement = $connection->prepare(
+            "INSERT INTO szkoly (id, miasto, ulica, nr_budynku, kod_poczt, nazwa, rodzaj, nip) 
+            VALUES (null, :miasto, :ulica, :nr_budynku, :kod_poczt, :nazwa, :rodzaj, :nip);"
+        );
 
-    if ($result instanceof DbError) {
-        echo "jest jakis błąd - to trzeba dopracować";
+        $params = [
+            ':miasto' => $miasto,
+            ':ulica' => $ulica,
+            ':nr_budynku' => $nr_budynku,
+            ':kod_poczt' => $kod_poczt,
+            ':nazwa' => $nazwa,
+            ':rodzaj' => $rodzaj,
+            ':nip' => $nip,
+        ];
+        
+        $result = fetchData($statement, $params);
+    
+        if (is_array($result)) {
+            header("Location: index.php");
+            exit;
+        } else {
+            $error = $result;
+        }
     } else {
-        echo "Poprawnie wprowadzono dane!";
+        $error = "Wypełnij wszystkie pola.";
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="pl">
-
-<!-- <head>
-    <?php //require_once(__DIR__ . "\..\layout\head.php");?>
-</head> -->
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodaj nową szkołę</title>
+</head>
 <body>
-    <main class="d-flex flex-nowrap">
-        <form class="form" action="" method="post">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-auto">
-                        <h4 class="border-bottom border-dark">Dane szkoły</h4>
-                        <div class="form-group mx-sm-3 mb-2">
-                            <label for="miasto" class="sr-only">Miasto</label>
-                            <input type="text" class="form-control" id="miasto" placeholder="Podaj miasto" name="miasto" required>
-                        </div>
-                        <div class="form-group mx-sm-3 mb-2">
-                            <label for="ulica" class="sr-only">Ulica</label>
-                            <input type="text" class="form-control" id="ulica" placeholder="Podaj ulicę" name="ulica" required>
-                        </div>
-                        <div class="form-group mx-sm-3 mb-2">
-                            <label for="nr_budynku" class="sr-only">Numer budynku</label>
-                            <input type="text" class="form-control" id="nr_budynku" placeholder="Podaj numer budynku" name="nr_budynku">
-                        </div>
-                        <div class="form-group mx-sm-3 mb-2">
-                            <label for="kod_poczt" class="sr-only">Kod pocztowy</label>
-                            <input type="text" class="form-control" id="kod_poczt" placeholder="Podaj kod pocztowy" name="kod_poczt">
-                        </div>
-                        <div class="form-group mx-sm-3 mb-2">
-                            <label for="nazwa" class="sr-only">Nazwa</label>
-                            <input type="text" class="form-control" id="nazwa" placeholder="Podaj nazwę" name="nazwa">
-                        </div>
-                        <div class="form-group mx-sm-3 mb-2">
-                            <label for="rodzaj" class="sr-only">Rodzaj</label>
-                            <input type="text" class="form-control" id="rodzaj" placeholder="Podaj rodzaj" name="rodzaj">
-                        </div>
-                        <div class="form-group mx-sm-3 mb-2">
-                            <label for="nip" class="sr-only">Nip</label>
-                            <input type="text" class="form-control" id="nip" placeholder="Podaj nip" name="nip">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button type="submit" name="dodajszkole" class="btn btn-primary py-2 mx-sm-3">Dodaj szkołę</button>
-            <button type="reset" name="dodajszkole" class="btn btn-secondary py-2">Reset</button>
-        </form>
-</body>
+    <h1>Dodaj nową szkołę</h1>
 
+    <?php if (!empty($error)): ?>
+        <p style="color:red;">Błąd: <?=htmlspecialchars($error)?></p>
+    <?php endif; ?>
+
+    <form action="" method="post">
+        <label for="miasto">Miasto</label>
+        <input type="text" name="miasto" id="miasto" placeholder="Podaj miasto" required>
+        <br><br>
+        <label for="miasto">Ulica</label>
+        <input type="text" name="ulica" id="ulica" placeholder="Podaj ulicę" required>
+        <br><br>
+        <label for="nr_budynku">Numer budynku</label>
+        <input type="text" name="nr_budynku" id="nr_budynku" placeholder="Podaj numer budynku">
+        <br><br>
+        <label for="kod_poczt">Kod pocztowy</label>
+        <input type="text" name="kod_poczt" id="kod_poczt" placeholder="Podaj kod pocztowy">
+        <br><br>
+        <label for="nazwa">Nazwa szkoły</label>
+        <input type="text" name="nazwa" id="nazwa" placeholder="Podaj nazwę">
+        <br><br>
+        <label for="rodzaj">Rodzaj</label>
+        <input type="text" name="rodzaj" id="rodzaj" placeholder="Podaj rodzaj">
+        <br><br>
+        <label for="nip">Nip</label>
+        <input type="text" name="nip" id="nip" placeholder="Podaj nip">
+        <br><br>
+        <button type="submit">Dodaj szkołę</button>
+    </form>
+</body>
 </html>

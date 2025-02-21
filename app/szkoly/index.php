@@ -1,6 +1,5 @@
 <?php
-
-require_once(__DIR__ . "..\..\..\db\connection.php");
+require_once __DIR__ . "/../../db/connection.php";
 
 $stmt = $connection->prepare("SELECT * FROM szkoly");
 
@@ -9,49 +8,47 @@ $szkoly = fetchData($stmt);
 ?>
 <!DOCTYPE html>
 <html lang="pl">
-
-<!-- <head>
-    <?php //require_once(__DIR__ . "\..\layout\head.php");?>
-</head> -->
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista szkół</title>
+</head>
 <body>
     <h1>Wyświetlanie szkół</h1>
-    
-    <!-- Tabela wyświetlania szkół -->
-    <table class="table table-dark">
+    <a href="create.php">Dodaj nową szkołę</a>
+    <table border="1" cellpadding="5" cellspacing="0">
     <thead>
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Miasto</th>
-            <th scope="col">Ulica</th>
-            <th scope="col">Nr budynku</th>
-            <th scope="col">Kod pocztowy</th>
-            <th scope="col">Nazwa</th>
-            <th scope="col">Rodzaj</th>
-            <th scope="col">NIP</th>
+            <th>ID</th>
+            <th>Miasto</th>
+            <th>Ulica</th>
+            <th>Nr budynku</th>
+            <th>Kod pocztowy</th>
+            <th>Nazwa</th>
+            <th>Rodzaj</th>
+            <th>NIP</th>
         </tr>
     </thead>
     <tbody>
         <?php if (!empty($szkoly)): ?>
             <?php foreach ($szkoly as $row): ?>
                 <tr>
-                    <th scope="row"><?= $row['id'] ?></th>
-                    <td><?= htmlspecialchars($row['miasto']) ?></td>
-                    <td><?= htmlspecialchars($row['ulica']) ?></td>
-                    <td><?= htmlspecialchars($row['nr_budynku']) ?></td>
-                    <td><?= htmlspecialchars($row['kod_poczt']) ?></td>
-                    <td><?= htmlspecialchars($row['nazwa']) ?></td>
-                    <td><?= htmlspecialchars($row['rodzaj']) ?></td>
-                    <td><?= htmlspecialchars($row['nip']) ?></td>
+                    <td><?=$row['id']?></td>
+                    <td><?=$row['miasto']?></td>
+                    <td><?=$row['ulica']?></td>
+                    <td><?=$row['nr_budynku']?></td>
+                    <td><?=$row['kod_poczt']?></td>
+                    <td><?=$row['nazwa']?></td>
+                    <td><?=$row['rodzaj']?></td>
+                    <td><?=$row['nip']?></td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
             <tr>
-                <td colspan="4">Brak danych do wyświetlenia.</td>
+                <td colspan="8">Brak danych do wyświetlenia.</td>
             </tr>
         <?php endif; ?>
     </tbody>
     </table>
 </body>
-
 </html>

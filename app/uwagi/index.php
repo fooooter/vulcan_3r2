@@ -28,6 +28,7 @@ $result = fetchData($stmt, $params);
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista uwag</title>
 </head>
 <body>
@@ -47,7 +48,7 @@ $result = fetchData($stmt, $params);
             </tr>
         </thead>
         <tbody>
-            <?php if (is_array($result)): ?>
+            <?php if (!empty($result) && is_array($result)): ?>
                 <?php foreach ($result as $row): ?>
                     <tr>
                         <td><?=$row['id']?></td>
@@ -66,7 +67,7 @@ $result = fetchData($stmt, $params);
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="8">Brak danych lub błąd: <?=htmlspecialchars($result)?></td>
+                    <td colspan="8" style="text-align: center"><?=is_array($result) ? "Brak danych" : ("Błąd: " . htmlspecialchars($result))?></td>
                 </tr>
             <?php endif; ?>
         </tbody>
