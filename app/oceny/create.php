@@ -1,12 +1,12 @@
 <?php
-require_once __DIR__ . "/../../db/connection.php";
+require_once(__DIR__ . "../../../db/connection.php");
 
 $query = "SELECT id, ocena FROM dict_typy_ocen";
 $statement = $connection->prepare($query);
 $typy_ocen = fetchData($statement);
 
 if ($typy_ocen instanceof DbError) {
-    echo "Wystąpił błąd: " . $pracownicy->name;
+    echo "Wystąpił błąd: " . $typy_ocen->name;
     exit();
 }
 
@@ -19,7 +19,6 @@ if ($pracownicy instanceof DbError) {
     exit();
 }
 
-// Pobieranie danych o przedmiotach
 $query = "SELECT id, nazwa FROM dict_przedmioty";
 $statement = $connection->prepare($query);
 $przedmioty = fetchData($statement);
@@ -29,7 +28,6 @@ if ($przedmioty instanceof DbError) {
     exit();
 }
 
-// Pobieranie danych o uczniach
 $query = "SELECT id, imie, imie2, nazwisko FROM uczniowie";
 $statement = $connection->prepare($query);
 $uczniowie = fetchData($statement);
@@ -39,7 +37,6 @@ if ($uczniowie instanceof DbError) {
     exit();
 }
 
-// Przetwarzanie formularza
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $typ_oceny = htmlentities($_POST['typ_oceny'] ?? null);
     $tytul_oceny = htmlentities( $_POST['tytul_oceny'] ?? null);
@@ -48,7 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pracownik_id = htmlentities($_POST['pracownik_id'] ?? null);
     $uczen_id = htmlentities($_POST['uczen_id'] ?? null);
 
-    // Pobieramy bieżącą datę i czas na serwerze
     $data_wystawienia = date('Y-m-d H:i:s'); // Format: YYYY-MM-DD HH:MM:SS
 
     if ($typ_oceny && $tytul_oceny && $opis_oceny && $przedmiot_id && $pracownik_id && $uczen_id && $data_wystawienia) {
@@ -73,7 +69,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit();
         }
 
-        header('Location: index.php');
+        $query = "SELECT MAX(oceny.id) AS 'id_dodane' FROM oceny";
+        $statement = $connection->prepare($query);
+        $aktualne_id = fetchData($statement);
+        header('Location: read.php?id=' . $aktualne_id[0]['id_dodane']);
         exit();
     }
 }
@@ -88,43 +87,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Dodaj ocenę</title>
 </head>
 <body>
-    <h1>Dodaj ocenę</h1>
     <form action="" method="post">
         <label for="typ_oceny">Typ oceny</label>
         <select name="typ_oceny" id="typ_oceny">
             <?php foreach ($typy_ocen as $typ): ?>
                 <option value="<?= $typ['id'] ?>"><?= $typ['ocena'] ?></option>
             <?php endforeach; ?>
-        </select><br><br>
+        </select>
 
         <label for="tytul_oceny">Tytuł oceny</label>
-        <input type="text" name="tytul_oceny" id="tytul_oceny"><br><br>
+        <input type="text" name="tytul_oceny" id="tytul_oceny">
 
         <label for="opis_oceny">Opis oceny</label>
-        <textarea name="opis_oceny" id="opis_oceny"></textarea><br><br>
+        <textarea name="opis_oceny" id="opis_oceny"></textarea>
 
         <label for="przedmiot_id">Przedmiot</label>
         <select name="przedmiot_id" id="przedmiot_id">
             <?php foreach ($przedmioty as $przedmiot): ?>
                 <option value="<?= $przedmiot['id'] ?>"><?= $przedmiot['nazwa'] ?></option>
             <?php endforeach; ?>
-        </select><br><br>
+        </select>
 
         <label for="pracownik_id">Nauczyciel</label>
         <select name="pracownik_id" id="pracownik_id">
             <?php foreach ($pracownicy as $pracownik): ?>
                 <option value="<?= $pracownik['id'] ?>"><?= $pracownik['imie'] ?> <?= $pracownik['nazwisko'] ?></option>
             <?php endforeach; ?>
-        </select><br><br>
+        </select>
 
         <label for="uczen_id">Uczeń</label>
         <select name="uczen_id" id="uczen_id">
             <?php foreach ($uczniowie as $uczen): ?>
                 <option value="<?= $uczen['id'] ?>"><?= $uczen['imie'] ?> <?= $uczen['nazwisko'] ?> (<?= $uczen['imie2'] ?>)</option>
             <?php endforeach; ?>
-        </select><br><br>
-
-        <!-- Usunięto pole 'data_wystawienia', ponieważ teraz jest automatycznie ustawiane w PHP -->
+        </select>
 
         <button type="submit">Dodaj ocenę</button>
     </form>

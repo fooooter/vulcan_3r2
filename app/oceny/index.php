@@ -1,11 +1,11 @@
 <?php
-require_once __DIR__ . "/../../db/connection.php";
+require_once(__DIR__ . "../../../db/connection.php");
 
 $query_oceny = "SELECT  oceny.id AS                 'oceny_id',
                         dict_typy_ocen.ocena AS     'oceny_typy_ocena',
                         oceny.tytul_oceny AS        'oceny_tytul',
                         oceny.opis_oceny AS         'oceny_opis',
-                        dict_przedmioty.nazwa AS    'oceny_przedmiot',
+                        dict_przedmioty.nazwa AS	'oceny_przedmiot',
                         pracownicy.imie AS			'oceny_pracownik_imie',
                         pracownicy.nazwisko AS		'oceny_pracownik_nazwisko',
                         uczniowie.imie AS 			'oceny_uczen_imie',
@@ -34,12 +34,11 @@ if ($oceny instanceof DbError) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista ocen</title>
+    <title>Egzaminy</title>
     <link rel="stylesheet" href="../../css/main.css">
 </head>
 <body>
-    <h1>Lista ocen</h1>
-    <table border="1" cellpadding="5" cellspacing="0">
+<table class="w-100">
         <thead>
             <tr>
                 <th>ID</th>
