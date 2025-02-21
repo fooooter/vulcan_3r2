@@ -46,9 +46,9 @@ $record = $result[0];
     <p><strong>Typ uwagi:</strong> <?=$record['typ_uwagi']?></p>
     <p><strong>Data:</strong> <?=$record['data']?></p>
     <p><strong>Godzina:</strong> <?=$record['godzina']?></p>
-    <p><strong>Treść:</strong> <?php echo nl2br($record['tresc']); ?></p>
+    <p><strong>Treść:</strong> <?=nl2br($record['tresc'])?></p>
     <p>
-        <strong>Pracownik:</strong> 
+        <strong>Nauczyciel:</strong> 
         <?=$record['pracownik_imie']?> <?=$record['pracownik_nazwisko']?>
     </p>
     <br>

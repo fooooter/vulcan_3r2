@@ -8,10 +8,10 @@ $sql = "SELECT  uwagi.*,
                 pracownicy.imie AS pracownik_imie, 
                 pracownicy.nazwisko AS pracownik_nazwisko 
         FROM uwagi 
-        LEFT JOIN uczniowie   ON uwagi.uczen_id = uczniowie.id 
-        LEFT JOIN pracownicy  ON uwagi.pracownik_id = pracownicy.id
-        INNER JOIN oddzialy   ON uczniowie.oddzial_id = oddzialy.id
-        INNER JOIN szkoly     ON pracownicy.szkola_id = szkoly.id
+        INNER JOIN uczniowie   ON uwagi.uczen_id = uczniowie.id 
+        INNER JOIN pracownicy  ON uwagi.pracownik_id = pracownicy.id
+        INNER JOIN oddzialy    ON uczniowie.oddzial_id = oddzialy.id
+        INNER JOIN szkoly      ON pracownicy.szkola_id = szkoly.id
         WHERE szkoly.id = :szkola_id";
 
 $stmt = $connection->prepare($sql);
@@ -54,15 +54,15 @@ $result = fetchData($stmt, $params);
                         <td><?=$row['tresc']?></td>
                         <td><?=$row['pracownik_imie']?> <?=$row['pracownik_nazwisko']?></td>
                         <td>
-                            <a href="read.php?id=<?php echo $row['id']; ?>">Szczegóły</a> |
-                            <a href="update.php?id=<?php echo $row['id']; ?>">Edytuj</a> |
-                            <a href="delete.php?id=<?php echo $row['id']; ?>" onclick="return confirm('Czy na pewno usunąć?')">Usuń</a>
+                            <a href="read.php?id=<?=$row['id']?>">Szczegóły</a> |
+                            <a href="update.php?id=<?=$row['id']?>">Edytuj</a> |
+                            <a href="delete.php?id=<?=$row['id']?>" onclick="return confirm('Czy na pewno usunąć?')">Usuń</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="8">Brak danych lub błąd: <?php echo $result; ?></td>
+                    <td colspan="8">Brak danych lub błąd: <?=htmlspecialchars($result)?></td>
                 </tr>
             <?php endif; ?>
         </tbody>

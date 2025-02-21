@@ -8,9 +8,20 @@ if (!isset($_GET['id'])) {
 
 $id = $_GET['id'];
 
-$sql = "SELECT * FROM uwagi WHERE id = :id";
+$sql = "SELECT  uwagi.*,
+                uczniowie.imie AS uczen_imie,
+                uczniowie.nazwisko AS uczen_nazwisko,
+                oddzialy.oddzial AS uczen_oddzial, 
+                pracownicy.imie AS pracownik_imie, 
+                pracownicy.nazwisko AS pracownik_nazwisko 
+        FROM uwagi 
+        INNER JOIN uczniowie   ON uwagi.uczen_id = uczniowie.id 
+        INNER JOIN pracownicy  ON uwagi.pracownik_id = pracownicy.id
+        INNER JOIN oddzialy    ON uczniowie.oddzial_id = oddzialy.id
+        INNER JOIN szkoly      ON pracownicy.szkola_id = szkoly.id
+        WHERE uwagi.id = :uwaga_id";
 $stmt = $connection->prepare($sql);
-$result = fetchData($stmt, [':id' => $id]);
+$result = fetchData($stmt, [':uwaga_id' => $id]);
 
 if (!is_array($result) || count($result) == 0) {
     echo "Brak rekordu o podanym ID.";
@@ -60,11 +71,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <h1>Edytuj uwagę</h1>
     <?php if (isset($error)): ?>
-        <p style="color:red;">Błąd: <?php echo htmlspecialchars($error); ?></p>
+        <p style="color:red;">Błąd: <?=htmlspecialchars($error)?></p>
     <?php endif; ?>
     <form method="post">
         <label>Uczeń:</label>
-        <input type="text" value="<?php echo htmlspecialchars($record['uczen_id']); ?>" disabled><br><br>
+        <input type="text" value="<?=$record['uczen_imie']?> <?=$record['uczen_nazwisko']?> <?=$record['uczen_oddzial']?>" disabled><br><br>
         
         <label for="typ_uwagi">Typ uwagi:</label>
         <select name="typ_uwagi" id="typ_uwagi" required>
@@ -73,16 +84,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </select><br><br>
         
         <label for="data">Data:</label>
-        <input type="date" name="data" id="data" value="<?php echo htmlspecialchars($record['data']); ?>" required><br><br>
+        <input type="date" name="data" id="data" value="<?=$record['data']?>" required><br><br>
         
         <label for="godzina">Godzina:</label>
-        <input type="time" name="godzina" id="godzina" value="<?php echo htmlspecialchars($record['godzina']); ?>" required><br><br>
+        <input type="time" name="godzina" id="godzina" value="<?=$record['godzina']?>" required><br><br>
         
         <label for="tresc">Treść:</label>
-        <textarea name="tresc" id="tresc" required><?php echo htmlspecialchars($record['tresc']); ?></textarea><br><br>
+        <textarea name="tresc" id="tresc" required><?=$record['tresc']?></textarea><br><br>
         
         <label>Nauczyciel:</label>
-        <input type="text" value="<?php echo htmlspecialchars($record['pracownik_id']); ?>" disabled><br><br>
+        <input type="text" value="<?=$record['pracownik_imie']?> <?=$record['pracownik_nazwisko']?>" disabled><br><br>
         
         <button type="submit">Aktualizuj</button>
     </form>

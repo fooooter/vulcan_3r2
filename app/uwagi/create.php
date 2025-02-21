@@ -64,8 +64,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <h1>Dodaj nową uwagę</h1>
-    <?php if (isset($error)): ?>
-        <p style="color:red;">Błąd: <?php echo htmlspecialchars($error); ?></p>
+    <?php if (!empty($error)): ?>
+        <p style="color:red;">Błąd: <?=htmlspecialchars($error)?></p>
     <?php endif; ?>
     <form method="post">
         <label for="uczen_id">Uczeń:</label>
