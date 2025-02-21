@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "../../../db/connection.php";
+require_once __DIR__ . "/../../db/connection.php";
 
 $query = "SELECT egzaminy.szkola_id         AS      'szkola_id',
                  egzaminy.odzial_id         AS      'odzial_id',

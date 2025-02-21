@@ -1,6 +1,5 @@
 <?php
-
-require_once __DIR__ . "..\..\..\db\connection.php";
+require_once __DIR__ . "/../../db/connection.php";
 
 if (isset($_POST['add'])) {
     $szkola_id = $_POST['szkola_id'];

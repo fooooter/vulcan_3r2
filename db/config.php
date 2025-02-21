@@ -2,8 +2,8 @@
 
 $config = [
     "host" => "localhost",
-    "dbname" => "vulcan_3r2",
+    "dbname" => "vulcan_git",
     "user" => "root",
-    "password" => "",
+    "password" => "123",
     "debug" => true,
 ];
