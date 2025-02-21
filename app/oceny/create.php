@@ -88,40 +88,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Dodaj ocenę</title>
 </head>
 <body>
+    <h1>Dodaj ocenę</h1>
     <form action="" method="post">
         <label for="typ_oceny">Typ oceny</label>
         <select name="typ_oceny" id="typ_oceny">
             <?php foreach ($typy_ocen as $typ): ?>
                 <option value="<?= $typ['id'] ?>"><?= $typ['ocena'] ?></option>
             <?php endforeach; ?>
-        </select>
+        </select><br><br>
 
         <label for="tytul_oceny">Tytuł oceny</label>
-        <input type="text" name="tytul_oceny" id="tytul_oceny">
+        <input type="text" name="tytul_oceny" id="tytul_oceny"><br><br>
 
         <label for="opis_oceny">Opis oceny</label>
-        <textarea name="opis_oceny" id="opis_oceny"></textarea>
+        <textarea name="opis_oceny" id="opis_oceny"></textarea><br><br>
 
         <label for="przedmiot_id">Przedmiot</label>
         <select name="przedmiot_id" id="przedmiot_id">
             <?php foreach ($przedmioty as $przedmiot): ?>
                 <option value="<?= $przedmiot['id'] ?>"><?= $przedmiot['nazwa'] ?></option>
             <?php endforeach; ?>
-        </select>
+        </select><br><br>
 
         <label for="pracownik_id">Nauczyciel</label>
         <select name="pracownik_id" id="pracownik_id">
             <?php foreach ($pracownicy as $pracownik): ?>
                 <option value="<?= $pracownik['id'] ?>"><?= $pracownik['imie'] ?> <?= $pracownik['nazwisko'] ?></option>
             <?php endforeach; ?>
-        </select>
+        </select><br><br>
 
         <label for="uczen_id">Uczeń</label>
         <select name="uczen_id" id="uczen_id">
             <?php foreach ($uczniowie as $uczen): ?>
                 <option value="<?= $uczen['id'] ?>"><?= $uczen['imie'] ?> <?= $uczen['nazwisko'] ?> (<?= $uczen['imie2'] ?>)</option>
             <?php endforeach; ?>
-        </select>
+        </select><br><br>
 
         <!-- Usunięto pole 'data_wystawienia', ponieważ teraz jest automatycznie ustawiane w PHP -->
 
