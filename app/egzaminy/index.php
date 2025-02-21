@@ -20,8 +20,6 @@ $statement = $connection->prepare($query);
 
 $egzaminy = fetchData($statement);
 
-var_dump($egzaminy);
-
 if ($egzaminy instanceof DbError) {
     echo "Wystąpił błąd: " . $egzaminy->name;
     exit();
@@ -38,7 +36,8 @@ if ($egzaminy instanceof DbError) {
     <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
-    <table class="w-100">
+    <h1>Lista egzaminów</h1>
+    <table border="1" cellpadding="5" cellspacing="0">
         <thead>
             <tr>
                 <th>ID</th>
@@ -78,6 +77,6 @@ if ($egzaminy instanceof DbError) {
     </table>
 
     <a class="btn btn-primary" href="create_egz.php">Dodaj egzamin</a>
-    <a class="btn btn-primary" href="create_ety.php">Dodaj etykiete</a>
+    <a class="btn btn-primary" href="create_ety.php">Dodaj etykietę</a>
 </body>
 </html>

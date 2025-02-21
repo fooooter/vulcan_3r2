@@ -43,7 +43,7 @@ var_dump($kalendarz);
 </head>
 <body>
     <h1 class="primary-text">Szczegóły wpisu w kalendarzu</h1>
-    <table class="w-100 margin-medium">
+    <table border="1" cellpadding="5" cellspacing="0">
         <tbody>
             <tr>
                 <th>Szkoła ID</th>

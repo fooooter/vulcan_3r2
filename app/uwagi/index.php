@@ -33,7 +33,6 @@ $result = fetchData($stmt, $params);
 </head>
 <body>
     <h1>Lista uwag</h1>
-    <a href="create.php">Dodaj nową uwagę</a>
     <table border="1" cellpadding="5" cellspacing="0">
         <thead>
             <tr>
@@ -72,5 +71,6 @@ $result = fetchData($stmt, $params);
             <?php endif; ?>
         </tbody>
     </table>
+    <a href="create.php">Dodaj nową uwagę</a>
 </body>
 </html>

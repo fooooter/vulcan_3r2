@@ -14,8 +14,7 @@ $szkoly = fetchData($stmt);
     <title>Lista szkół</title>
 </head>
 <body>
-    <h1>Wyświetlanie szkół</h1>
-    <a href="create.php">Dodaj nową szkołę</a>
+    <h1>Lista szkół</h1>
     <table border="1" cellpadding="5" cellspacing="0">
     <thead>
         <tr>
@@ -50,5 +49,6 @@ $szkoly = fetchData($stmt);
         <?php endif; ?>
     </tbody>
     </table>
+    <a href="create.php">Dodaj nową szkołę</a>
 </body>
 </html>
