@@ -30,7 +30,6 @@ if (!$kalendarz) {
     echo "Nie znaleziono danych dla Szkoła ID: " . htmlspecialchars($szkola_id) . " i Data: " . htmlspecialchars($data);
     exit();
 }
-var_dump($kalendarz);
 ?>
 
 <!DOCTYPE html>

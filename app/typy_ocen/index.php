@@ -30,7 +30,7 @@ $result = fetchData($stmt);
             </tr>
         </thead>
         <tbody>
-            <?php if (is_array($result)): ?>
+            <?php if (!empty($result) && is_array($result)): ?>
                 <?php foreach ($result as $row): ?>
                     <tr>
                         <td><?=$row['id']?></td>
@@ -38,7 +38,7 @@ $result = fetchData($stmt);
                         <td><?=$row['wartosc']?></td>
                         <td><?=$row['szkola_id']?></td>
                         <td>
-                        <a href="read.php?id=<?=$row['id']?>">Szczegóły</a> |
+                            <a href="read.php?id=<?=$row['id']?>">Szczegóły</a> |
                             <a href="update.php?id=<?=$row['id']?>">Edytuj</a> |
                             <a href="delete.php?id=<?=$row['id']?>" onclick="return confirm('Czy na pewno usunąć?')">Usuń</a>
                         </td>
@@ -46,7 +46,7 @@ $result = fetchData($stmt);
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="16">Brak danych lub błąd: <?php echo $result; ?></td>
+                    <td colspan="5" style="text-align: center"><?=is_array($result) || empty($result) ? "Brak danych" : ("Błąd: " . htmlspecialchars($result))?></td>
                 </tr>
             <?php endif; ?>
         </tbody>

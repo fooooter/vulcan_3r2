@@ -4,7 +4,7 @@ require_once __DIR__ . "/../../db/connection.php";
 $id = $_GET['id'] ?? null;
 
 $query = "SELECT egzaminy.szkola_id         AS      'szkola_id',
-                 egzaminy.oddzial_id        AS     'oddzial_id',
+                 egzaminy.oddzial_id        AS      'oddzial_id',
                  egzaminy.nr_zdaj           AS      'nr_zdaj',
                  egzaminy.dopuszczony       AS      'dopuszczony',
                  egzaminy.kwalifikacja      AS      'kwalifikacja',

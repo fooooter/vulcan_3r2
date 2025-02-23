@@ -29,7 +29,7 @@ $szkoly = fetchData($stmt);
         </tr>
     </thead>
     <tbody>
-        <?php if (!empty($szkoly)): ?>
+        <?php if (!empty($szkoly) && is_array($szkoly)): ?>
             <?php foreach ($szkoly as $row): ?>
                 <tr>
                     <td><?=$row['id']?></td>
@@ -44,7 +44,7 @@ $szkoly = fetchData($stmt);
             <?php endforeach; ?>
         <?php else: ?>
             <tr>
-                <td colspan="8">Brak danych do wyświetlenia.</td>
+                <td colspan="8" style="text-align: center"><?=is_array($result) || empty($result) ? "Brak danych" : ("Błąd: " . htmlspecialchars($result))?></td>
             </tr>
         <?php endif; ?>
     </tbody>

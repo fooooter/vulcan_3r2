@@ -10,8 +10,6 @@ if ($id_szkol instanceof DbError) {
     echo "Wystąpił błąd: " . $egzaminy->name;
     exit();
 }
-
-
 ?>
 
 <!DOCTYPE html>

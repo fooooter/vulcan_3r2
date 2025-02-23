@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "../../../db/connection.php");
+require_once __DIR__ . "/../../db/connection.php";
 
 $query_oceny = "SELECT  oceny.id AS                 'oceny_id',
                         dict_typy_ocen.ocena AS     'oceny_typy_ocena',
@@ -38,7 +38,7 @@ if ($oceny instanceof DbError) {
     <link rel="stylesheet" href="../../css/main.css">
 </head>
 <body>
-<table class="w-100">
+    <table border="1" cellpadding="5" cellspacing="0">
         <thead>
             <tr>
                 <th>ID</th>
@@ -56,22 +56,26 @@ if ($oceny instanceof DbError) {
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($oceny as $rekord): ?>
-                <tr>
-                    <td><?= htmlspecialchars($rekord['oceny_id']); ?></td>
-                    <td><?= htmlspecialchars($rekord['oceny_typy_ocena']); ?></td>
-                    <td><?= htmlspecialchars($rekord['oceny_tytul']); ?></td>
-                    <td><?= htmlspecialchars($rekord['oceny_opis']); ?></td>
-                    <td><?= htmlspecialchars($rekord['oceny_przedmiot']); ?></td>
-                    <td><?= htmlspecialchars($rekord['oceny_pracownik_imie']); ?></td>
-                    <td><?= htmlspecialchars($rekord['oceny_pracownik_nazwisko']); ?></td>
-                    <td><?= htmlspecialchars($rekord['oceny_uczen_imie']); ?></td>
-                    <td><?= htmlspecialchars($rekord['oceny_uczen_nazwisko']); ?></td>
-                    <td><?= htmlspecialchars($rekord['oceny_data']); ?></td>
-                    <td><a class="btn btn-accent" href="read.php?id=<?= $rekord['oceny_id'] ?>">Szczegóły</a></td>
-                    <td><a class="btn btn-secondary" href="update.php?id=<?= $rekord['oceny_id'] ?>">Aktualizuj</a></td>
-                </tr>
-            <?php endforeach; ?>
+            <?php if (!empty($oceny) && is_array($oceny)): ?>
+                <?php foreach ($oceny as $rekord): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($rekord['oceny_id']); ?></td>
+                        <td><?= htmlspecialchars($rekord['oceny_typy_ocena']); ?></td>
+                        <td><?= htmlspecialchars($rekord['oceny_tytul']); ?></td>
+                        <td><?= htmlspecialchars($rekord['oceny_opis']); ?></td>
+                        <td><?= htmlspecialchars($rekord['oceny_przedmiot']); ?></td>
+                        <td><?= htmlspecialchars($rekord['oceny_pracownik_imie']); ?></td>
+                        <td><?= htmlspecialchars($rekord['oceny_pracownik_nazwisko']); ?></td>
+                        <td><?= htmlspecialchars($rekord['oceny_uczen_imie']); ?></td>
+                        <td><?= htmlspecialchars($rekord['oceny_uczen_nazwisko']); ?></td>
+                        <td><?= htmlspecialchars($rekord['oceny_data']); ?></td>
+                        <td><a class="btn btn-accent" href="read.php?id=<?= $rekord['oceny_id'] ?>">Szczegóły</a></td>
+                        <td><a class="btn btn-secondary" href="update.php?id=<?= $rekord['oceny_id'] ?>">Aktualizuj</a></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <td colspan="12" style="text-align: center"><?=is_array($result) || empty($result) ? "Brak danych" : ("Błąd: " . htmlspecialchars($result))?></td>
+            <?php endif; ?>
         </tbody>
     </table>
 

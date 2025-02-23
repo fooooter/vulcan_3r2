@@ -24,7 +24,6 @@ if ($egzaminy instanceof DbError) {
     echo "Wystąpił błąd: " . $egzaminy->name;
     exit();
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -56,23 +55,27 @@ if ($egzaminy instanceof DbError) {
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($egzaminy as $rekord): ?>
-                <tr>
-                    <td><?= htmlspecialchars($rekord['id']); ?></td>
-                    <td><?= htmlspecialchars($rekord['uczen_id']); ?></td>
-                    <td><?= htmlspecialchars($rekord['ilosc_pkt']); ?></td>
-                    <td><?= htmlspecialchars($rekord['termin']); ?></td>
-                    <td><?= htmlspecialchars($rekord['etykieta_egz_id']); ?></td>
-                    <td><?= htmlspecialchars($rekord['szkola_id']); ?></td>
-                    <td><?= htmlspecialchars($rekord['oddzial_id']); ?></td>
-                    <td><?= htmlspecialchars($rekord['nr_zdaj']); ?></td>
-                    <td><?= htmlspecialchars($rekord['dopuszczony']); ?></td>
-                    <td><?= htmlspecialchars($rekord['kwalifikacja']); ?></td>
-                    <td><?= htmlspecialchars($rekord['typ_egzaminu']); ?></td>
-                    <td><a class="btn btn-accent" href="read.php?id=<?= $rekord['id'] ?>">Szczegóły</a></td>
-                    <td><a class="btn btn-secondary" href="update.php?id=<?= $rekord['id'] ?>">Aktualizuj</a></td>
-                </tr>
-            <?php endforeach; ?>
+            <?php if (!empty($egzaminy) && is_array($egzaminy)): ?>
+                <?php foreach ($egzaminy as $rekord): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($rekord['id']); ?></td>
+                        <td><?= htmlspecialchars($rekord['uczen_id']); ?></td>
+                        <td><?= htmlspecialchars($rekord['ilosc_pkt']); ?></td>
+                        <td><?= htmlspecialchars($rekord['termin']); ?></td>
+                        <td><?= htmlspecialchars($rekord['etykieta_egz_id']); ?></td>
+                        <td><?= htmlspecialchars($rekord['szkola_id']); ?></td>
+                        <td><?= htmlspecialchars($rekord['oddzial_id']); ?></td>
+                        <td><?= htmlspecialchars($rekord['nr_zdaj']); ?></td>
+                        <td><?= htmlspecialchars($rekord['dopuszczony']); ?></td>
+                        <td><?= htmlspecialchars($rekord['kwalifikacja']); ?></td>
+                        <td><?= htmlspecialchars($rekord['typ_egzaminu']); ?></td>
+                        <td><a class="btn btn-accent" href="read.php?id=<?= $rekord['id'] ?>">Szczegóły</a></td>
+                        <td><a class="btn btn-secondary" href="update.php?id=<?= $rekord['id'] ?>">Aktualizuj</a></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <td colspan="13" style="text-align: center"><?=is_array($result) || empty($result) ? "Brak danych" : ("Błąd: " . htmlspecialchars($result))?></td>
+            <?php endif; ?>
         </tbody>
     </table>
 
