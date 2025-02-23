@@ -1,53 +1,58 @@
 <?php
 require_once __DIR__ . "/../../db/connection.php";
 
-$stmt = $connection->prepare("SELECT * FROM szkoly");
+$sql = "SELECT * FROM szkoly";
 
-$szkoly = fetchData($stmt);
-
+$stmt = $connection->prepare($sql);
+$params = [];
+$szkoly = fetchData($stmt, $params);
 ?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista szkół</title>
 </head>
 <body>
     <h1>Lista szkół</h1>
     <table border="1" cellpadding="5" cellspacing="0">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Miasto</th>
-            <th>Ulica</th>
-            <th>Nr budynku</th>
-            <th>Kod pocztowy</th>
-            <th>Nazwa</th>
-            <th>Rodzaj</th>
-            <th>NIP</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php if (!empty($szkoly) && is_array($szkoly)): ?>
-            <?php foreach ($szkoly as $row): ?>
-                <tr>
-                    <td><?=$row['id']?></td>
-                    <td><?=$row['miasto']?></td>
-                    <td><?=$row['ulica']?></td>
-                    <td><?=$row['nr_budynku']?></td>
-                    <td><?=$row['kod_poczt']?></td>
-                    <td><?=$row['nazwa']?></td>
-                    <td><?=$row['rodzaj']?></td>
-                    <td><?=$row['nip']?></td>
-                </tr>
-            <?php endforeach; ?>
-        <?php else: ?>
+        <thead>
             <tr>
-                <td colspan="8" style="text-align: center"><?=is_array($result) || empty($result) ? "Brak danych" : ("Błąd: " . htmlspecialchars($result))?></td>
+                <th>ID</th>
+                <th>Miasto</th>
+                <th>Ulica</th>
+                <th>Nr budynku</th>
+                <th>Kod pocztowy</th>
+                <th>Nazwa</th>
+                <th>Rodzaj</th>
+                <th>NIP</th>
+                <th>Akcje</th>
             </tr>
-        <?php endif; ?>
-    </tbody>
+        </thead>
+        <tbody>
+            <?php if (!empty($szkoly) && is_array($szkoly)): ?>
+                <?php foreach ($szkoly as $row): ?>
+                    <tr>
+                        <td><?=$row['id']?></td>
+                        <td><?=$row['miasto']?></td>
+                        <td><?=$row['ulica']?></td>
+                        <td><?=$row['nr_budynku']?></td>
+                        <td><?=$row['kod_poczt']?></td>
+                        <td><?=$row['nazwa']?></td>
+                        <td><?=$row['rodzaj']?></td>
+                        <td><?=$row['nip']?></td>
+                        <td>
+                            <a href="read.php?id=<?=$row['id']?>">Szczegóły</a> |
+                            <a href="update.php?id=<?=$row['id']?>">Edytuj</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="9" style="text-align: center">Brak danych</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
     </table>
     <a href="create.php">Dodaj nową szkołę</a>
 </body>
