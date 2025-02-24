@@ -72,7 +72,7 @@ $result = fetchData($stmt, $params);
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="19" style="text-align: center">Brak danych</td>
+                    <td colspan="19" style="text-align: center"><?=is_array($result) || empty($result) ? "Brak danych" : ("Błąd: " . htmlspecialchars($result))?></td>
                 </tr>
             <?php endif; ?>
         </tbody>
