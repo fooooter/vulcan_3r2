@@ -74,7 +74,7 @@ if ($egzaminy instanceof DbError) {
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
-                <td colspan="13" style="text-align: center"><?=is_array($result) || empty($result) ? "Brak danych" : ("Błąd: " . htmlspecialchars($result))?></td>
+                <td colspan="13" style="text-align: center"><?=is_array($egzaminy) || empty($egzaminy) ? "Brak danych" : ("Błąd: " . htmlspecialchars($egzaminy))?></td>
             <?php endif; ?>
         </tbody>
     </table>

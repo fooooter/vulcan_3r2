@@ -49,7 +49,7 @@ $szkoly = fetchData($stmt, $params);
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="9" style="text-align: center"><?=is_array($result) || empty($result) ? "Brak danych" : ("Błąd: " . htmlspecialchars($result))?></td>
+                    <td colspan="9" style="text-align: center"><?=is_array($szkoly) || empty($szkoly) ? "Brak danych" : ("Błąd: " . htmlspecialchars($szkoly))?></td>
                 </tr>
             <?php endif; ?>
         </tbody>
